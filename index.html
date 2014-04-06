@@ -1,0 +1,202 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>G-Code</title>
+
+       <script src="cordova.js"></script>
+   <!--  <script src="plugins/plugin-loader.js"></script> -->
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+   
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/extras.css" rel="stylesheet"> 
+    
+     <script>
+        // Set virtual screen width size to 640 pixels
+        //monaca.viewport({width: 640});
+
+        // PhoneGap event handler
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            // Update Toolbar Header
+            monaca.updateUIStyle("header", "title", "Your First App");
+            monaca.updateUIStyle("tapme-button", "disable", false);
+            
+            console.log("PhoneGap is ready");
+             //window.mycars = new Array();
+        }
+        
+        function cam(){
+
+            var comment = document.getElementById('comment').value;
+
+            /*if(comment != '')
+            {*/
+                navigator.camera.getPicture(onSuccess, onFail, 
+                    { 
+                        quality: 50,
+                        destinationType: Camera.DestinationType.DATA_URL
+                       /* destinationType: Camera.DestinationType.FILE_URI*/
+                    });
+                
+                function onSuccess(imageData) 
+                    {
+
+                        var image = document.getElementById('myImage');
+                        image.src = "data:image/jpeg;base64," + imageData;
+                       /* mycars[] = "data:image/jpeg;base64," + imageData;
+                        window.imageUpload = "data:image/jpeg;base64," + imageData;*/
+                        
+                        //navigator.notification.alert(image.src);
+                    }
+                
+                function onFail(message) 
+                    {
+                        navigator.notification.alert('Failed because: ' + message);
+                    }
+
+                   // uploadPhoto(imageData);
+           /* } else 
+                    {
+                        navigator.notification.alert('Please type in comment about event first!'); 
+                    }*/
+
+
+    }
+
+   // function uploadPhoto(imageURI) {
+    function uploadPhoto(imageData) {
+
+            $.post( "http://exolvetechnologies.com/gcode/api/upload", {file: imageData}, function(data) {
+              navigator.notification.alert("Image uploaded!");
+            });
+            /*var options = new FileUploadOptions();
+            options.fileKey="file";
+            options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+            options.mimeType="image/jpeg";
+
+            var params = new Object();
+            params.value1 = "test";
+            params.value2 = "param";
+
+            options.params = params;
+
+            var ft = new FileTransfer();
+            ft.upload(imageURI, "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);*/
+
+            //locate();
+          
+        }
+
+
+   function send()
+   {
+        var comment = document.getElementById('comment').value;
+        var category = document.getElementById('category').value;
+
+        if((comment != '') && (category != ''))
+        {
+          locate();
+          uploadPhoto;
+        navigator.notification.alert("Report sent to Gcode Manager", function() {}, " ", "OK")
+        }  else 
+          {
+              navigator.notification.alert('Please select category and create comment!'); 
+          }
+    
+
+   }
+            
+        function onTapButton(){
+            // Triggers when button is tapped: defined in index.ui
+            navigator.notification.alert("HelloWorld", function() {}, " ", "OK")
+        }
+    </script>       
+
+  </head>
+  <body>
+
+
+      <div class="container">
+              <div class="row">
+                
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                         <nav class="nav nav-stacked navbar-fixed-top">
+                          <a href="#" class="logo"><img src="images/g-code-logo.jpg" /></a>
+                            
+                            <ul>
+                              <li><a href="#">About <i class="fa fa-location-arrow"></i></a></li>
+                            </ul>
+                         </nav> 
+
+                    </div>
+                   </div>
+                    
+                  <div class="row" style="margin-top:110px;" tyle="background-color: #fff">  
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: #fff">
+                            <select name="category" class="text-element" id="category">
+                                <option value="">Select Category</option>
+                                <option value="#Polling">Polling</option>
+                                <option value="#Security">Security</option>
+                                <option value="#Health">Health</option>
+                                <option value="#Flood">Flood</option>
+                                <option value="#Traffic">Traffic</option>
+                                <option value="#CivilDisturbance">Civil Disturbance</option>
+                              </select>
+                      </div>
+              
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color: #fff">
+               
+                    <div class="border-rad" id="camera">
+                        
+                        <!--<center> <i class="fa-5x fa-camera"></i> </center>-->
+                    <center><img src="images/camera-icon.png" id="myImage" onclick="cam();" height="100px"></center>
+                    </div>
+                    
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <textarea id="comment" rows="5" class="text-element1"></textarea>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                        <button class="btn btn-success text-btn" id="send" onclick="send();" ><i class="fa fa-upload"></i> Send</button>
+                    </div>
+                            
+                      
+                           
+                           
+                          <!--  <img  src="images/g-code-logo2.png"  class="border-rad" />
+                           
+                  <div class="col-sm-6 col-xs-6"><img src="images/g-code-logo2.png" class="border-rad" /></div>
+                  <div class="col-sm-6 col-xs-6"><img src="images/g-code-logo2.png" class="border-rad" /></div>
+                             -->
+                     </div>
+                      
+                  </div>
+                
+              </div>
+            </div>
+
+
+     <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+   <script >
+    function locate(){
+
+    var suc = function(p) {
+        navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
+       $.post( "http://exolvetechnologies.com/gcode/api/location", 
+            { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, function( data ) {
+            $( ".result" ).html( data );
+          });
+    };
+    var locFail = function() {};
+    navigator.geolocation.getCurrentPosition(suc, locFail);
+
+     
+        }
+
+    </script>
+  </body>
+</html>
