@@ -24,15 +24,13 @@
             monaca.updateUIStyle("tapme-button", "disable", false);
             
             console.log("PhoneGap is ready");
-             //window.mycars = new Array();
         }
         
-        function cam(){
+    function cam()
+        {
 
             var comment = document.getElementById('comment').value;
 
-            /*if(comment != '')
-            {*/
                 navigator.camera.getPicture(onSuccess, onFail, 
                     { 
                         quality: 50,
@@ -42,41 +40,19 @@
                 
 
                 function onSuccess (imageURI) 
-                {
-                  document.getElementById('myImage').src = imageURI;
-                }
-
-                /*function onSuccess(imageData) 
                     {
-
-                        var image = document.getElementById('myImage');
-                        image.src = "data:image/jpeg;base64," + imageData;
-                     
-                        
-                        navigator.notification.alert(image.src);
-                    }*/
-                
+                      document.getElementById('myImage').src = imageURI;
+                    }
+                  
                 function onFail(message) 
                     {
                         navigator.notification.alert('Failed because: ' + message);
                     }
-
-                   // uploadPhoto(imageData);
-           /* } else 
-                    {
-                        navigator.notification.alert('Please type in comment about event first!'); 
-                    }*/
-
-
-    }
+        }
 
    // function uploadPhoto(imageURI) {
-    function uploadPhoto(imageURI) {
-
-            /*$.post( "http://exolvetechnologies.com/gcode/api/upload", {file: imageData}, 
-              function(data) {
-              navigator.notification.alert("Image uploaded!");
-            });*/
+    function uploadPhoto(imageURI) 
+        {
             var options = new FileUploadOptions();
             options.fileKey="file";
             options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -91,30 +67,27 @@
             var ft = new FileTransfer();
             ft.upload(imageURI, 
               "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);
-             navigator.notification.alert("Image uploaded!");
-
-            //locate();
-          
+             navigator.notification.alert("Image uploaded!");          
         }
 
 
    function send()
-   {
-        var comment = document.getElementById('comment').value;
-        var category = document.getElementById('category').value;
-
-        if((comment != '') && (category != ''))
         {
-          locate();
-          uploadPhoto();
-          navigator.notification.alert("Report sent to Gcode Manager","OK")
-        }  else 
-          {
-              navigator.notification.alert('Please select category and create comment!'); 
-          }
-    
+          var comment = document.getElementById('comment').value;
+          var category = document.getElementById('category').value;
 
-   }
+          if((comment != '') && (category != ''))
+          {
+            locate();
+            uploadPhoto();
+            navigator.notification.alert("Report sent to Gcode Manager","OK")
+            //alert("Report sent to Gcode Manager","OK")
+          }  else 
+            {
+                navigator.notification.alert('Please select category and create comment!'); 
+               //alert('Please select category and create comment!'); 
+            }
+        }
             
         function onTapButton(){
             // Triggers when button is tapped: defined in index.ui
@@ -186,15 +159,15 @@
 
     var suc = function(p) {
         navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
-       $.post( "http://exolvetechnologies.com/gcode/api/location", 
-            { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, function( data ) {
-            $( ".result" ).html( data );
-          });
-    };
-    var locFail = function() {};
-    //navigator.geolocation.getCurrentPosition(suc, locFail);
-
-     
+        //alert(p.coords.latitude + " " + p.coords.longitude);
+           $.post( "http://exolvetechnologies.com/gcode/api/location", 
+                { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
+                    function( data ) 
+                    {
+                      $( ".result" ).html( data );
+                    });
+                };
+            navigator.geolocation.getCurrentPosition(suc);     
         }
 
     </script>
