@@ -157,15 +157,17 @@
     
     var suc = function(p) {
        
-       navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);  
+      
       $.post( "http://exolvetechnologies.com/gcode/api/location", 
               { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
                   function( data ) 
                   {
                     $( ".result" ).html( data );
                   });
+       navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
               };
               navigator.geolocation.getCurrentPosition(suc); 
+
           }
     </script>
   </body>
