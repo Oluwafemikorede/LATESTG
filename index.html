@@ -80,7 +80,7 @@
           {
             locate();
             uploadPhoto();
-            navigator.notification.alert("Report sent to Gcode Manager","OK")
+            navigator.notification.alert("Report sent to Gcode Manager","OK");
             //alert("Report sent to Gcode Manager","OK")
           }  else 
             {
@@ -91,7 +91,7 @@
             
         function onTapButton(){
             // Triggers when button is tapped: defined in index.ui
-            navigator.notification.alert("HelloWorld", function() {}, " ", "OK")
+            navigator.notification.alert("HelloWorld");
         }
     </script>       
 
@@ -133,13 +133,12 @@
                     <div class="border-rad" id="camera">
                         
                         <!--<center> <i class="fa-5x fa-camera"></i> </center>-->
-                    <center><img src="images/camera-icon.png" id="myImage" onclick="cam();" height="100px"></center>
-                    </div>
-                    
+                    <center>
+                    <img src="images/camera-icon.png" id="myImage" onclick="cam();" height="100px"></center>
+                    </div>                   
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                         <textarea id="comment" rows="5" class="text-element1"></textarea>
-                    </div>
-                    
+                    </div>           
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                         <button class="btn btn-success text-btn" id="send" onclick="send();" ><i class="fa fa-upload"></i> Send</button>
                     </div>
@@ -150,26 +149,24 @@
                 
               </div>
             </div>
-
-
      <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
    <script >
     function locate(){
-
+    
+    
     var suc = function(p) {
-        navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
-        //alert(p.coords.latitude + " " + p.coords.longitude);
-           $.post( "http://exolvetechnologies.com/gcode/api/location", 
-                { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
-                    function( data ) 
-                    {
-                      $( ".result" ).html( data );
-                    });
-                };
-            navigator.geolocation.getCurrentPosition(suc);     
-        }
-
+       
+       navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);  
+      $.post( "http://exolvetechnologies.com/gcode/api/location", 
+              { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
+                  function( data ) 
+                  {
+                    $( ".result" ).html( data );
+                  });
+              };
+              navigator.geolocation.getCurrentPosition(suc); 
+          }
     </script>
   </body>
 </html>
