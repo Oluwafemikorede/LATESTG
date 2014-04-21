@@ -36,20 +36,25 @@
                 navigator.camera.getPicture(onSuccess, onFail, 
                     { 
                         quality: 50,
-                        destinationType: Camera.DestinationType.DATA_URL
-                       /* destinationType: Camera.DestinationType.FILE_URI*/
+                        // destinationType: Camera.DestinationType.DATA_URL
+                        destinationType: Camera.DestinationType.FILE_URI
                     });
                 
-                function onSuccess(imageData) 
+
+                function onSuccess (imageURI) 
+                {
+                  document.getElementById('myImage').src = imageURI;
+                }
+
+                /*function onSuccess(imageData) 
                     {
 
                         var image = document.getElementById('myImage');
                         image.src = "data:image/jpeg;base64," + imageData;
-                       /* mycars[] = "data:image/jpeg;base64," + imageData;
-                        window.imageUpload = "data:image/jpeg;base64," + imageData;*/
+                     
                         
-                        //navigator.notification.alert(image.src);
-                    }
+                        navigator.notification.alert(image.src);
+                    }*/
                 
                 function onFail(message) 
                     {
@@ -66,13 +71,13 @@
     }
 
    // function uploadPhoto(imageURI) {
-    function uploadPhoto(imageData) {
+    function uploadPhoto(imageURI) {
 
-            $.post( "http://exolvetechnologies.com/gcode/api/upload", {file: imageData}, 
+            /*$.post( "http://exolvetechnologies.com/gcode/api/upload", {file: imageData}, 
               function(data) {
               navigator.notification.alert("Image uploaded!");
-            });
-            /*var options = new FileUploadOptions();
+            });*/
+            var options = new FileUploadOptions();
             options.fileKey="file";
             options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
             options.mimeType="image/jpeg";
@@ -84,7 +89,9 @@
             options.params = params;
 
             var ft = new FileTransfer();
-            ft.upload(imageURI, "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);*/
+            ft.upload(imageURI, 
+              "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);
+             navigator.notification.alert("Image uploaded!");
 
             //locate();
           
@@ -99,8 +106,8 @@
         if((comment != '') && (category != ''))
         {
           locate();
-          uploadPhoto(imageData);
-        navigator.notification.alert("Report sent to Gcode Manager", function() {}, " ", "OK")
+          uploadPhoto();
+          navigator.notification.alert("Report sent to Gcode Manager","OK")
         }  else 
           {
               navigator.notification.alert('Please select category and create comment!'); 
