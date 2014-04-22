@@ -50,25 +50,6 @@
                     }
         }
 
-function onCapturePhoto(fileURI) {
-    var win = function (r) {
-        alert('Done!');
-    }
- 
-    var fail = function (error) {
-        alert('Ups. Something wrong happens!');
-    }
- 
-    var options = new FileUploadOptions();
-    options.fileKey = "file";
-    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
-    options.mimeType = "image/jpeg";
-    options.params = {}; // if we need to send parameters to the server request
-    var ft = new FileTransfer();
-    ft.upload(fileURI, "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);
-}
-
-
     function uploadPhoto(imageURI) 
         {
            document.getElementById('myImage').src = imageURI;
@@ -93,11 +74,12 @@ function onCapturePhoto(fileURI) {
              alert("Image uploaded!");          
         }
 
-         function win(r) {
+         function win(r) 
+          {
             console.log("Code = " + r.responseCode);
             console.log("Response = " + r.response);
             console.log("Sent = " + r.bytesSent);
-        }
+           }
 
         function fail(error) {
             alert("An error has occurred: Code = " = error.code);
@@ -112,7 +94,7 @@ function onCapturePhoto(fileURI) {
 
           if((comment != '') && (category != ''))
           {
-            locate();
+            navigator.geolocation.getCurrentPosition(onSuccessGeo, onError); 
            // uploadPhoto;
             alert("Message Sent!","OK");
             //navigator.notification.alert("Report sent to Gcode Manager","OK");
@@ -120,27 +102,30 @@ function onCapturePhoto(fileURI) {
           }  else 
             {
                 navigator.notification.alert('Please select category and create comment!'); 
-               //alert('Please select category and create comment!'); 
             }
         }
             
 
-    function locate(){
-    
-    var suc = function(p) {  
-     var user_id = device.uuid;   
-      $.post( "http://exolvetechnologies.com/gcode/api/location", 
-            { lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
-              function( data ) 
-              {
-                //$( ".result" ).html( data );
-              });
-      navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
-       //navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
-              };
-  navigator.geolocation.getCurrentPosition(suc); 
 
-          }
+ function onSuccessGeo(p) 
+          {  
+           //var user_id = device.uuid; 
+           var latitude = p.coords.latitude;
+           var longitude = p.coords.longitude;
+            $.post( "http://exolvetechnologies.com/gcode/api/location", 
+                  { lat: latitude , lng: longitude, user_id: 'user_id' }, 
+                    function( data ) 
+                    {
+                      $( ".result" ).html( data );
+                    });
+              alert(p.coords.latitude + " " + p.coords.longitude);
+             //navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
+                    };
+
+ function onError(error) 
+      {
+          alert('code: ' + error.code    + '\n' +'message: ' + error.message + '\n');
+      }  
     </script>       
 
   </head>
@@ -199,8 +184,5 @@ function onCapturePhoto(fileURI) {
             </div>
      <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-   <script >
-  
-    </script>
   </body>
 </html>
