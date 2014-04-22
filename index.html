@@ -109,11 +109,11 @@
 
  function onSuccessGeo(p) 
           {  
-           //var user_id = device.uuid; 
+           var user_id = device.uuid; 
            var latitude = p.coords.latitude;
            var longitude = p.coords.longitude;
             $.post( "http://exolvetechnologies.com/gcode/api/location", 
-                  { lat: latitude , lng: longitude, user_id: 'user_id' }, 
+                  { lat: latitude , lng: longitude, user_id: user_id }, 
                     function( data ) 
                     {
                       $( ".result" ).html( data );
