@@ -130,7 +130,7 @@ function onCapturePhoto(fileURI) {
     var suc = function(p) {  
      var user_id = device.uuid;   
       $.post( "http://exolvetechnologies.com/gcode/api/location", 
-            { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
+            { lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
               function( data ) 
               {
                 //$( ".result" ).html( data );
