@@ -127,10 +127,13 @@
 
            function onSuccessGeo(p) 
            {
-             var user_id = device.uuid;   
+             var user_id = device.uuid; 
+              var comment = $('#comment').val();
+              var category = $('#category').val();
+  
              alert(p.coords.latitude + " " + p.coords.longitude);
             $.post( "http://exolvetechnologies.com/gcode/api/location", 
-            { lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
+            { comment: comment, category: category, lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
               function( data ) 
               {
                 $( ".result" ).html( data );
