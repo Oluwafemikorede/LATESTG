@@ -31,7 +31,7 @@
 
             var comment = document.getElementById('comment').value;
 
-                navigator.camera.getPicture(onSuccess, onFail, 
+                navigator.camera.getPicture(uploadPhoto, onFail, 
                     { 
                         quality: 50,
                         // destinationType: Camera.DestinationType.DATA_URL
@@ -50,9 +50,29 @@
                     }
         }
 
-   // function uploadPhoto(imageURI) {
+function onCapturePhoto(fileURI) {
+    var win = function (r) {
+        alert('Done!');
+    }
+ 
+    var fail = function (error) {
+        alert('Ups. Something wrong happens!');
+    }
+ 
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    options.mimeType = "image/jpeg";
+    options.params = {}; // if we need to send parameters to the server request
+    var ft = new FileTransfer();
+    ft.upload(fileURI, "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);
+}
+
+
     function uploadPhoto(imageURI) 
         {
+           document.getElementById('myImage').src = imageURI;
+           alert("Image!"); 
             var options = new FileUploadOptions();
             options.fileKey="file";
             options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -67,7 +87,7 @@
             var ft = new FileTransfer();
             ft.upload(imageURI, 
               "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);
-             navigator.notification.alert("Image uploaded!");          
+             alert("Image uploaded!");          
         }
 
          function win(r) {
@@ -90,9 +110,10 @@
           if((comment != '') && (category != ''))
           {
             locate();
-            uploadPhoto();
-            navigator.notification.alert("Report sent to Gcode Manager","OK");
-            //alert("Report sent to Gcode Manager","OK")
+            uploadPhoto;
+            alert("Report sent to Gcode Manager","OK");
+            //navigator.notification.alert("Report sent to Gcode Manager","OK");
+          
           }  else 
             {
                 navigator.notification.alert('Please select category and create comment!'); 
@@ -100,10 +121,22 @@
             }
         }
             
-        function onTapButton(){
-            // Triggers when button is tapped: defined in index.ui
-            navigator.notification.alert("HelloWorld");
-        }
+
+    function locate(){
+    
+    var suc = function(p) {     
+      $.post( "http://exolvetechnologies.com/gcode/api/location", 
+              { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
+                  function( data ) 
+                  {
+                    //$( ".result" ).html( data );
+                  });
+      alert(p.coords.latitude + " " + p.coords.longitude);
+       //navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
+              };
+              navigator.geolocation.getCurrentPosition(suc); 
+
+          }
     </script>       
 
   </head>
@@ -163,23 +196,7 @@
      <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
    <script >
-    function locate(){
-    
-    
-    var suc = function(p) {
-       
-      
-      $.post( "http://exolvetechnologies.com/gcode/api/location", 
-              { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
-                  function( data ) 
-                  {
-                    $( ".result" ).html( data );
-                  });
-       navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
-              };
-              navigator.geolocation.getCurrentPosition(suc); 
-
-          }
+  
     </script>
   </body>
 </html>
