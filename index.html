@@ -72,7 +72,9 @@ function onCapturePhoto(fileURI) {
     function uploadPhoto(imageURI) 
         {
            document.getElementById('myImage').src = imageURI;
-
+                  
+            var user_id = device.uuid;
+            
             var options = new FileUploadOptions();
             options.fileKey="file";
             options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -81,6 +83,7 @@ function onCapturePhoto(fileURI) {
             var params = new Object();
             params.value1 = "test";
             params.value2 = "param";
+            params.user_id = user_id;
 
             options.params = params;
 
@@ -111,7 +114,7 @@ function onCapturePhoto(fileURI) {
           {
             locate();
            // uploadPhoto;
-            alert("Report sent to Gcode Manager","OK");
+            alert("Message Sent!","OK");
             //navigator.notification.alert("Report sent to Gcode Manager","OK");
           
           }  else 
@@ -124,17 +127,18 @@ function onCapturePhoto(fileURI) {
 
     function locate(){
     
-    var suc = function(p) {     
+    var suc = function(p) {  
+     var user_id = device.uuid;   
       $.post( "http://exolvetechnologies.com/gcode/api/location", 
-              { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude }, 
-                  function( data ) 
-                  {
-                    //$( ".result" ).html( data );
-                  });
-      alert(p.coords.latitude + " " + p.coords.longitude);
+            { gcode: 'USER' , lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
+              function( data ) 
+              {
+                //$( ".result" ).html( data );
+              });
+      navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
        //navigator.notification.alert(p.coords.latitude + " " + p.coords.longitude);
               };
-              navigator.geolocation.getCurrentPosition(suc); 
+  navigator.geolocation.getCurrentPosition(suc); 
 
           }
     </script>       
