@@ -50,24 +50,6 @@
                     }
         }
 
-function onCapturePhoto(fileURI) {
-    var win = function (r) {
-        alert('Done!');
-    }
- 
-    var fail = function (error) {
-        alert('Ups. Something wrong happens!');
-    }
- 
-    var options = new FileUploadOptions();
-    options.fileKey = "file";
-    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
-    options.mimeType = "image/jpeg";
-    options.params = {}; // if we need to send parameters to the server request
-    var ft = new FileTransfer();
-    ft.upload(fileURI, "http://exolvetechnologies.com/gcode/api/upload", win, fail, options);
-}
-
 
     function uploadPhoto(imageURI) 
         {
@@ -112,7 +94,8 @@ function onCapturePhoto(fileURI) {
 
           if((comment != '') && (category != ''))
           {
-            locate();
+            //locate();
+            navigator.geolocation.getCurrentPosition(onSuccessGeo, onError);
            // uploadPhoto;
             alert("Message Sent!","OK");
             //navigator.notification.alert("Report sent to Gcode Manager","OK");
@@ -125,12 +108,12 @@ function onCapturePhoto(fileURI) {
         }
             
 
-    function locate(){
-    var user_idd = device.uuid;   
+    /*function locate(){
+    
     var suc = function(p) {  
-     
+     var user_id = device.uuid;   
       $.post( "http://exolvetechnologies.com/gcode/api/location", 
-            { lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_idd }, 
+            { lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
               function( data ) 
               {
                 $( ".result" ).html( data );
@@ -140,7 +123,24 @@ function onCapturePhoto(fileURI) {
               };
   navigator.geolocation.getCurrentPosition(suc); 
 
+          }*/
+
+           function onSuccessGeo(p) 
+           {
+             var user_id = device.uuid;   
+             alert(p.coords.latitude + " " + p.coords.longitude);
+            $.post( "http://exolvetechnologies.com/gcode/api/location", 
+            { lat: p.coords.latitude , lng: p.coords.longitude, user_id: user_id }, 
+              function( data ) 
+              {
+                $( ".result" ).html( data );
+              });
+            
           }
+
+          function onError(error) {
+            alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+        }
     </script>       
 
   </head>
