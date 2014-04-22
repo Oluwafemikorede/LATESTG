@@ -72,7 +72,7 @@ function onCapturePhoto(fileURI) {
     function uploadPhoto(imageURI) 
         {
            document.getElementById('myImage').src = imageURI;
-           alert("Image!"); 
+
             var options = new FileUploadOptions();
             options.fileKey="file";
             options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -110,7 +110,7 @@ function onCapturePhoto(fileURI) {
           if((comment != '') && (category != ''))
           {
             locate();
-            uploadPhoto;
+           // uploadPhoto;
             alert("Report sent to Gcode Manager","OK");
             //navigator.notification.alert("Report sent to Gcode Manager","OK");
           
